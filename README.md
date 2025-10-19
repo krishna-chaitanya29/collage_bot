@@ -1,33 +1,42 @@
-# FAQ Chatbot with RAG
+# Production-Grade RAG FAQ Chatbot
 
-An AI-powered FAQ chatbot that answers user queries using Retrieval-Augmented Generation (RAG). It retrieves relevant information from a knowledge base and generates accurate, context-aware responses.
+An AI-powered FAQ chatbot that answers user queries about our college using a production-ready, cloud-native Retrieval-Augmented Generation (RAG) architecture. It retrieves relevant information from a cloud-hosted vector database and generates accurate, context-aware, streaming responses.
+
+This project has moved from a local prototype to a fully deployed application hosted on Hugging Face Spaces.
 
 ---
-
 ## 🚀 Features
-- Answers frequently asked questions with high accuracy.
-- Uses RAG (Retrieval + Generation) to combine search + AI reasoning.
-- Easily updatable knowledge base (FAQs, documents).
-- Simple interface for interaction (Web UI).
-- Scalable and customizable.
+* Answers questions with high accuracy using data from private college documents.
+* **Streaming Responses**: Delivers answers word-by-word for an interactive user experience.
+* **Cloud-Native**: Built on a modern stack using a serverless vector database and a managed LLM provider.
+* **Scalable Architecture**: Deployed via Docker on Hugging Face Spaces, ready to handle user traffic.
+* **Easily Updatable**: The knowledge base in Zilliz Cloud can be updated with new documents at any time.
 
 ---
-
-## How RAG Works
-1. **User asks a question** (e.g., "What is the refund policy?")
-2. **Retriever searches the knowledge base** (FAQs, documents).
-3. **Top relevant results are passed to the LLM** (Large Language Model).
-4. **LLM generates an answer** using both retrieved text and its own knowledge.
+## 🏛️ Architecture & How It Works
 
 
+1.  **Frontend (React)**: The user asks a question in the chatbot UI.
+2.  **Backend (FastAPI on Hugging Face Spaces)**: The request is sent to the live FastAPI endpoint.
+3.  **Embedding**: The backend uses a Hugging Face Sentence Transformer model to convert the user's question into a vector.
+4.  **Retrieval (Zilliz Cloud)**: The backend queries the Zilliz Cloud vector database with this vector to find the most relevant document chunks from the college knowledge base.
+5.  **Generation (OpenRouter.ai)**: The retrieved document chunks and the original question are sent to a Mistral model via the OpenRouter.ai API.
+6.  **Streaming Response**: The LLM generates the answer, which is streamed back through the FastAPI server to the React frontend, appearing word-by-word.
 
-## Tech Stack
-- **Frontend:** React.js
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
-- **AI/ML:** Python (Flask), Hugging Face Transformers, Sentence Transformers
-- **Other:** Axios, Natural Language Toolkit (NLTK)
+---
+## 💻 Tech Stack
 
+| Category | Technology | Purpose |
+| :--- | :--- | :--- |
+| **Frontend** | React.js | Interactive chatbot user interface. |
+| **Backend** | Python, **FastAPI** | High-performance, streaming-capable API server. |
+| **Vector DB** | **Zilliz Cloud** | Cloud-native, serverless vector database for storing document embeddings. |
+| **LLM Provider**| **OpenRouter.ai** | Access to state-of-the-art LLMs like Mistral. |
+| **Embedding** | Hugging Face Sentence Transformers | Converts text to vector embeddings. |
+| **Deployment** | **Hugging Face Spaces**, Docker | Containerized deployment and free hosting for the backend API. |
+
+---
+## 📂 Project Structure
 ---
 
 ## Project Structure
