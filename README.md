@@ -5,6 +5,11 @@ An AI-powered FAQ chatbot that answers user queries about our college using a pr
 This project has moved from a local prototype to a fully deployed application hosted on Hugging Face Spaces.
 
 ---
+## 🚀 Live Demo
+
+You can interact with the live chatbot here: **[collagebot1184.netlify.app](https://collagebot1184.netlify.app/)**
+
+---
 ## 🚀 Features
 * Answers questions with high accuracy using data from private college documents.
 * **Streaming Responses**: Delivers answers word-by-word for an interactive user experience.
@@ -37,13 +42,12 @@ This project has moved from a local prototype to a fully deployed application ho
 
 ---
 ## 📂 Project Structure
----
 
-## Project Structure
 ```
 backend/
-  package.json
-  server.js
+  main.py # The FastAPI application logic
+  requirements.txt # Python dependencies
+  Dockerfile # Docker configuration for deployment
 frontend/
   package.json
   README.md
@@ -59,30 +63,32 @@ frontend/
 ## Installation
 1. **Clone the repo:**
    ```bash
-   git clone https://github.com/krishna-chaitanya29/chatbot_faq.git
-   cd chatbot_faq
+   git clone [https://github.com/krishna-chaitanya29/chatbot_faq.git](https://github.com/krishna-chaitanya29/chatbot_faq.git)
+cd collage_bit
    ```
 2. **Install dependencies:**
    - Backend:
-     ```bash
-     cd backend
-     npm install
+     ```cd backend
+pip install -r requirements.txt
      ```
    - Frontend:
-     ```bash
-     cd ../frontend
-     npm install
+     ```cd ../frontend
+        npm install
      ```
 3. **Set up environment variables:**
-   - Create a `.env` file in `backend/` and add your MongoDB URI and any API keys required.
+   - Create a `.env` file in `backend/` and add your # backend/.env
+ZILLIZ_URI="your-zilliz-uri-goes-here"
+ZILLIZ_TOKEN="your-zilliz-token-goes-here"
+OPENROUTER_API_KEY="your-openrouter-key-goes-here"
+ keys required.
 
 ---
 
 ## Running the Project
 - **Start the backend:**
   ```bash
-  cd backend
-  npm start
+  # From the backend/ directory
+    uvicorn main:app --reload
   ```
 - **Start the frontend:**
   ```bash
@@ -96,12 +102,17 @@ frontend/
   ```
 
 ---
+## Deployment
+This application is deployed on Hugging Face Spaces using a Docker container
+- Continuous Deployment: Pushing changes to the main branch of the GitHub repository automatically triggers a new build and deployment on Hugging Face
+- Secrets Management: All API keys and URIs are securely stored as "Repository secrets" in the Hugging Face Spaces settings, not in the code
 
+---
 ## Future Improvements
-- Multi-language support
-- Voice-based interaction
-- More efficient retriever (BM25, Hybrid search)
-- Deploy on cloud (AWS/GCP/Heroku)
+- Implement a frontend UI for uploading new documents to update the knowledge base
+- Add conversation history to allow for follow-up questions.
+- Integrate a more advanced retriever (e.g., hybrid search) for better accuracy
+- Create a frontend dashboard to monitor usage and user feedback
 
 ---
 
