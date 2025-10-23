@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import Autosuggest from 'react-autosuggest';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faPaperPlane, faRobot, faUser, faComments } from '@fortawesome/free-solid-svg-icons';
 import './ChatbotModel.css';
 
 const allSuggestions = [
@@ -16,10 +18,15 @@ const allSuggestions = [
 
 function ChatbotModel() {
   const [inputText, setInputText] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
+  const [chatHistory, setChatHistory] = useState([
+    {
+      isUser: false,
+      message: '👋 Welcome to KMIT FAQ Chatbot! I\'m here to help you with any questions about admissions, placements, faculty, subjects, and more. How can I assist you today?'
+    }
+  ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const [activeCategory, setActiveCategory] = useState('faqs');
   const [suggestions, setSuggestions] = useState([]);
   const chatHistoryRef = useRef(null);
@@ -142,19 +149,19 @@ function ChatbotModel() {
   return (
     <>
       {!isChatOpen && (
-        <img
-          src="chatbot.png"
-          alt="Chatbot Icon"
-          className="chatbot-icon"
-          onClick={toggleChat}
-        />
+        <div className="chatbot-icon" onClick={toggleChat}>
+          <FontAwesomeIcon icon={faComments} className="chatbot-icon-svg" />
+        </div>
       )}
       {isChatOpen && (
         <div className="chatbot-container">
           <div className="chatbot-header">
-            <h2>KMIT FAQ Chatbot</h2>
+            <div className="chatbot-header-content">
+              <FontAwesomeIcon icon={faRobot} className="chatbot-header-icon" />
+              <h2>KMIT FAQ Chatbot</h2>
+            </div>
             <button className="close-chat-button" onClick={toggleChat}>
-              &times;
+              <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>
           <div className="chat-history" ref={chatHistoryRef}>
@@ -163,13 +170,18 @@ function ChatbotModel() {
                 key={index}
                 className={`chat-message ${msg.isUser ? 'user' : 'bot'}`}
               >
-                {msg.isUser ? (
-                  <p>{msg.message}</p>
-                ) : (
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {msg.message}
-                  </ReactMarkdown>
-                )}
+                <div className="message-icon">
+                  <FontAwesomeIcon icon={msg.isUser ? faUser : faRobot} />
+                </div>
+                <div className="message-content">
+                  {msg.isUser ? (
+                    <p>{msg.message}</p>
+                  ) : (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {msg.message}
+                    </ReactMarkdown>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -199,8 +211,8 @@ function ChatbotModel() {
               renderSuggestion={renderSuggestion}
               inputProps={inputProps}
             />
-            <button onClick={handleSubmit} disabled={loading}>
-              {loading ? <div className="spinner" /> : 'Send'}
+            <button onClick={handleSubmit} disabled={loading} className="send-button">
+              {loading ? <div className="spinner" /> : <FontAwesomeIcon icon={faPaperPlane} />}
             </button>
           </div>
           {error && <div className="error-message">{error}</div>}
